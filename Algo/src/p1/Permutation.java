@@ -4,42 +4,35 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 public class Permutation {
 	// Sn - Ordnungs
 	private int numberOfElements;
 	private Map<Integer, Integer> permutationMap;
-	private List<Integer> permutation;
+	private List<List<Integer>> tupelList;
 	private List<Integer> identity;
 	
 	public Permutation(int[] intArray) {
 		// NO CHECK FOR VALID DATA
-		permutation = new LinkedList<Integer>();
 		identity = new LinkedList<Integer>();
+		tupelList = new LinkedList<List<Integer>>();
 		createPermutationMap(intArray);
 		createIdentity();
+		createTupel();
 		numberOfElements = intArray.length;
 	}
 	
+	private void createTupel() {
+		
+		
+	}
+
 	private void createPermutationMap(int[] intArray) {
 		permutationMap = new HashMap<Integer, Integer>();
 		for (int i=0; i<intArray.length; i++) {
 			permutationMap.put(i, intArray[i]);
 		}
-	}
-
-	public void addNumber(int inputNumber) {
-		if ( !(inputNumber < numberOfElements) ) {
-			System.out.println("Element ist nicht im definierten Bereich Sn = " + numberOfElements);
-		}
-		
-		Integer number = new Integer(inputNumber);
-		
-		if (permutation.contains(number)) {
-			System.out.println("Element ist bereits in der Permutation vorhanden");
-		}
-		
-		permutation.add(number);
 	}
 	
 	public void printCycleNotation() {
@@ -92,27 +85,6 @@ public class Permutation {
 		}
 		
 		System.out.println("PI = " + tempNotation);
-			
-//			// Fall 1: Nummer bildet auf sich selber ab.
-//			if (usedNumbers.contains(new Integer(i))) {
-//				continue;
-//			}
-//			
-//			if (permutation.get(i).intValue() == identity.get(i).intValue()) {
-//				//skip, wird nicht angezeigt
-//				usedNumbers.add(permutation.get(i));
-//				continue;
-//			}
-//			
-//			// Fall 2: Nummer bildet auf anderes Element ab
-//			Integer firstNumber = identity.get(i);
-//			Integer mappedNumber = permutation.get(i);
-//			tempNotation += firstNumber.toString() + " ";
-//			for (int j=0; j<numberOfElements;j++) {
-//				
-//			}
-
-//		}
 	}
 	
 	private void createIdentity() {
