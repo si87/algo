@@ -15,7 +15,7 @@ public class Main {
 		
 		int[] intArray_2 = {1,4,2,0,3,5,8,6,7};
 		
-		int[] permArray = {0,1,2};
+		int[] permArray = {0,1,2,3};
 		
 		// Aufgabe 01
 		Permutation p = new Permutation(intArray);

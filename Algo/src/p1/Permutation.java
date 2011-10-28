@@ -11,6 +11,7 @@ public class Permutation {
 	private int numberOfElements;
 	private Map<Integer, Integer> permutationMap;
 	private List<Integer> identity;
+	private int permutationCounter = 0;
 	
 	public Permutation(int[] intArray) {
 		// NO CHECK FOR VALID DATA
@@ -31,20 +32,23 @@ public class Permutation {
 		permute(newList, identity);
 	}
 	
-	// Not finished
 	private void permute(List<Integer> firstPart, List<Integer> rest) {
 		if (rest.size() <= 0) {
+			System.out.print( ++permutationCounter + ") ");
 			for (int i=0;i<firstPart.size(); i++) {
 				System.out.print(firstPart.get(i).intValue());
 			}
-			System.out.println("--");
+			System.out.println("");
+			
 		} else {
-			for (int i=0; i<rest.size();i++) {
-				firstPart.add(rest.get(i));
+			int restSize = rest.size();
+			for (int i=0; i<restSize;i++) {
 				List<Integer> newRest = new LinkedList<Integer>(rest);
+				List<Integer> newFirst = new LinkedList<Integer>(firstPart);
+				newFirst.add(newRest.get(i));
 				newRest.remove(i);
-				List<Integer> newList = new LinkedList<Integer>(firstPart);
-				permute(newList, newRest);
+				
+				permute(newFirst, newRest);
 			}
 		}
 		
