@@ -14,12 +14,42 @@ public class Permutation {
 	
 	public Permutation(int[] intArray) {
 		// NO CHECK FOR VALID DATA
-		identity = new LinkedList<Integer>();
 		createPermutationMap(intArray);
-		createIdentity();
 		numberOfElements = intArray.length;
+		identity = new LinkedList<Integer>();
+		createIdentity();
 	}
 	
+	private void createIdentity() {
+		for (int i=0; i<numberOfElements; i++) {
+			identity.add(i);
+		}
+	}
+	
+	public void printAllPermutations() {
+		List<Integer> newList = new LinkedList<Integer>();
+		permute(newList, identity);
+	}
+	
+	// Not finished
+	private void permute(List<Integer> firstPart, List<Integer> rest) {
+		if (rest.size() <= 0) {
+			for (int i=0;i<firstPart.size(); i++) {
+				System.out.print(firstPart.get(i).intValue());
+			}
+			System.out.println("--");
+		} else {
+			for (int i=0; i<rest.size();i++) {
+				firstPart.add(rest.get(i));
+				List<Integer> newRest = new LinkedList<Integer>(rest);
+				newRest.remove(i);
+				List<Integer> newList = new LinkedList<Integer>(firstPart);
+				permute(newList, newRest);
+			}
+		}
+		
+	}
+
 	public Permutation multiplicate(Permutation inputP) {
 		int[] newPermArray = new int[numberOfElements];
 		Map<Integer, Integer> inputMap = inputP.getMap();
@@ -43,20 +73,33 @@ public class Permutation {
 		return inversePermutation;
 	}
 	
+	/*
+	 *  ( 0 1 2 3 4 5 )  => MapKey
+	 *  ( 4 2 1 0 3 5 )  => MapValues, currentMappedNumber
+	 *  
+	 *  
+	 */
 	public void printCycleNotation() {
+		// Liste mit bereits benutzten MapKeys
 		List<Integer> usedNumbers = new LinkedList<Integer>();
 		
 		String tempNotation = "";
 		for (int i=0; i<numberOfElements; i++) {
+			// Wenn der MapKey bereits benutzt wurde, gehe zum nächsten Durchlauf
 			if (usedNumbers.contains(new Integer(i))) {
 				continue;
 			}
 			
+			// Wenn der MapKey auf sich selber abgebildet wird (1er Zyklus), Zahl in usedNumbers eintragen und zum nächsten
+			// Durchlauf gehen.
 			if (permutationMap.get(i) == i) {
 				usedNumbers.add(permutationMap.get(i));
 				continue;
 			}
 			
+			// Wenn keines der ersten beiden Szenarien zutrifft, wird ein neuer Tupel aufgemacht.
+			// Die erste Zahl im Tupel entspricht dem Value zum Key. Danach wird der Zyklus bis zum Ende durchlaufen und 
+			// die Elemente in den Tupel und in die usedNumbers-List eingetragen.
 			Integer currentMappedNumber = permutationMap.get(i);
 			List<Integer> newTupel = new LinkedList<Integer>();
 			int smallestValueInTupel = numberOfElements;
@@ -98,17 +141,14 @@ public class Permutation {
 			}
 		}
 		
+		if (tempNotation.length() <= 0) {
+			tempNotation = "id"+numberOfElements;
+		}
 		System.out.println("PI = " + tempNotation);
 	}
 	
 	public Map<Integer, Integer> getMap() {
 		return permutationMap;
-	}
-	
-	private void createIdentity() {
-		for (int i=0; i<numberOfElements; i++) {
-			identity.add(new Integer(i));
-		}
 	}
 	
 	private void createPermutationMap(int[] intArray) {
