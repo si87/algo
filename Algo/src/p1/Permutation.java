@@ -55,6 +55,7 @@ public class Permutation {
 	}
 
 	public Permutation multiplicate(Permutation inputP) {
+		// inputP = roh; permutationMap = Pi;
 		int[] newPermArray = new int[numberOfElements];
 		Map<Integer, Integer> inputMap = inputP.getMap();
 		
@@ -114,12 +115,12 @@ public class Permutation {
 				// im neuen Tupel die aktuell gemappte Nummer speichern.
 				newTupel.add(currentMappedNumber);
 				
-				// finde kleinste Nummer
+				// finde kleinste Nummer, da diese im Tupel ganz vorne stehen soll
 				if (currentMappedNumber.intValue() < smallestValueInTupel) {
 					smallestValueInTupel = currentMappedNumber.intValue();
 				}
 				
-				// zum nächsten Mapping springen
+				// zum nächsten Mapping springen = alter Value wird zum neuen Key
 				currentMappedNumber = permutationMap.get(currentMappedNumber);
 			}
 			
