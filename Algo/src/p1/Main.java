@@ -34,7 +34,7 @@ public class Main {
 		
 		Permutation p2 = new Permutation(intArray_2);
 		
-		Permutation idx = p.multiplicate(p2);
+		Permutation idx = p.multiplicate(inv);
 		idx.printCycleNotation();
 		
 		System.out.println("Print Permutations");

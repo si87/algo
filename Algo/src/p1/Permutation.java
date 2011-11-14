@@ -12,6 +12,9 @@ public class Permutation {
 	private Map<Integer, Integer> permutationMap;
 	private List<Integer> identity;
 	private int permutationCounter = 0;
+	private int numberOfFactors = 0;
+	private String tempNotation = "";
+	private int[] listNotation;
 	
 	public Permutation(int[] intArray) {
 		// NO CHECK FOR VALID DATA
@@ -19,6 +22,8 @@ public class Permutation {
 		numberOfElements = intArray.length;
 		identity = new LinkedList<Integer>();
 		createIdentity();
+		createCycleNotation();
+		listNotation = intArray.clone();
 	}
 	
 	private void createIdentity() {
@@ -84,11 +89,16 @@ public class Permutation {
 	 *  
 	 *  
 	 */
-	public void printCycleNotation() {
+	public void printCycleNotation() {		
+		if (tempNotation.length() <= 0) {
+			tempNotation = "id"+numberOfElements;
+		}
+		System.out.println("PI = " + tempNotation);
+	}
+	
+	private void createCycleNotation() {
 		// Liste mit bereits benutzten MapKeys
 		List<Integer> usedNumbers = new LinkedList<Integer>();
-		
-		String tempNotation = "";
 		for (int i=0; i<numberOfElements; i++) {
 			// Wenn der MapKey bereits benutzt wurde, gehe zum nächsten Durchlauf
 			if (usedNumbers.contains(new Integer(i))) {
@@ -99,6 +109,7 @@ public class Permutation {
 			// Durchlauf gehen.
 			if (permutationMap.get(i) == i) {
 				usedNumbers.add(permutationMap.get(i));
+				numberOfFactors++;
 				continue;
 			}
 			
@@ -108,6 +119,7 @@ public class Permutation {
 			Integer currentMappedNumber = permutationMap.get(i);
 			List<Integer> newTupel = new LinkedList<Integer>();
 			int smallestValueInTupel = numberOfElements;
+			numberOfFactors++;
 			while(!usedNumbers.contains(currentMappedNumber)) {
 				// die gemappte Nummer zu benutzten Nummern hinzufügen, für Abbruchbedingung der äußeren FOR-Schleife
 				usedNumbers.add(currentMappedNumber);
@@ -145,15 +157,31 @@ public class Permutation {
 				break;
 			}
 		}
-		
-		if (tempNotation.length() <= 0) {
-			tempNotation = "id"+numberOfElements;
+	}
+	
+	public Permutation getIdentity() {
+		int[] identityArray = new int[numberOfElements];
+		for (int i=0; i<numberOfElements; i++) {
+			identityArray[i] = identity.get(i).intValue();
 		}
-		System.out.println("PI = " + tempNotation);
+		Permutation newPermutation = new Permutation(identityArray);
+		return newPermutation;
 	}
 	
 	public Map<Integer, Integer> getMap() {
 		return permutationMap;
+	}
+	
+	public int getNumberOfFactors() {
+		return numberOfFactors;
+	}
+	
+	public int getNumberOfElements() {
+		return numberOfElements;
+	}
+	
+	public int[] getListNotation() {
+		return listNotation;
 	}
 	
 	private void createPermutationMap(int[] intArray) {
@@ -162,4 +190,5 @@ public class Permutation {
 			permutationMap.put(i, intArray[i]);
 		}
 	}
+	
 }
