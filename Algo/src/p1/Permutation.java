@@ -14,6 +14,7 @@ public class Permutation {
 	private int permutationCounter = 0;
 	private int numberOfFactors = 0;
 	private String tempNotation = "";
+	private boolean isIdentity = false;
 	private int[] listNotation;
 	
 	public Permutation(int[] intArray) {
@@ -24,6 +25,14 @@ public class Permutation {
 		createIdentity();
 		createCycleNotation();
 		listNotation = intArray.clone();
+		for (int i=0; i<intArray.length; i++) {
+			if (i == intArray[i]) {
+				isIdentity = true;
+			} else {
+				isIdentity = false;
+				break;
+			}
+		}
 	}
 	
 	private void createIdentity() {
@@ -182,6 +191,14 @@ public class Permutation {
 	
 	public int[] getListNotation() {
 		return listNotation;
+	}
+	
+	public boolean isIdentity() {
+		return isIdentity;
+	}
+	
+	public int getNext(int inputNumber) {
+		return permutationMap.get(inputNumber);
 	}
 	
 	private void createPermutationMap(int[] intArray) {
