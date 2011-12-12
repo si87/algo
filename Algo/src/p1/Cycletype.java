@@ -10,6 +10,8 @@ public class Cycletype {
 	int number = 0;
 	int[] specificPartition;
 	int[] identity;
+	List<int[]> specificPermutationList = new LinkedList<int[]>();
+	List<Integer> doublePartList = new LinkedList<Integer>(); 
 	
 	public Cycletype(int n) {
 		number = n;
@@ -20,6 +22,66 @@ public class Cycletype {
 		}
 	}
 	
+	public List<int[]> getSpecificPartitionList() {
+		gen_partitions( number, number, 0);
+		for (int[] currentPartition : allPartitions) {
+			Map<Integer, Integer> mapping = new HashMap<Integer, Integer>();
+			generateCycletypes( currentPartition, mapping );
+			generateSpecificPermutationList( mapping );
+			getDoublePart( mapping );
+		}
+		return specificPermutationList;
+	}
+	
+	private void getDoublePart(Map<Integer, Integer> mapping) {
+		int num = 1;
+		for (int i=1; i <= number; i++) {
+			if (mapping.containsKey(i)) {
+				int a = mapping.get(i);
+				double temp = (Math.pow(i, a) * getFactorial(a));
+				num *= (temp<1)?1:temp;
+			}
+			
+		}
+		doublePartList.add(num);
+		
+	}
+	
+	public List<Integer> getDoublePartList() {
+		return doublePartList;
+	}
+	
+	public static int getFactorial(int inputN) {
+		int n = inputN;
+		int result = 1;
+		for (int i=1; i<=n; i++) {
+			result = result*i;
+		}
+		
+		return result;
+	}
+
+	private void generateSpecificPermutationList(Map<Integer, Integer> mapping) {
+		int[] currentPermutationArray = identity.clone();
+		for (int tupelSize = 1; tupelSize <= number; tupelSize++) {
+			if (mapping.containsKey(tupelSize)) {
+				int numberOfTupelOfSize = mapping.get(tupelSize);
+				for (int i = 0; i < numberOfTupelOfSize; i++) {
+					for(int j = 0; j < tupelSize-1; j++) {
+						swap(i*tupelSize+j, currentPermutationArray);
+					}
+				} 
+			}
+		}
+		specificPermutationList.add(currentPermutationArray);
+	}
+
+	private void swap(int i, int[] arr) {
+		int temp = arr[i];
+		arr[i] = arr[i+1];
+		arr[i+1] = temp;
+	}
+
 	public void printCycletypes() {
 		gen_partitions( number, number, 0);
 		for (int[] currentPartition : allPartitions) {
@@ -62,17 +124,9 @@ public class Cycletype {
 		//System.out.println(",");	
 		if (counter >= number) 
 			break;
-		}
-		
-//		int i=1;
-//		int sum=0;
-//		while(sum < 4) {
-//			sum = sum + mapping.get(i)*i;
-//			i++;
-//		}
-		
+		}		
 	}
-
+	
 	private void save_partition(int k) {
 		int[] newArray = new int[number];
 		for (int i = 0; i<k; i++) {
