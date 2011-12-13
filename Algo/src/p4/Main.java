@@ -33,7 +33,7 @@ public class Main {
 //		printAllBahnen(p0001Perm);
 		
 		
-		Cycletype cy = new Cycletype(4);
+		Cycletype cy = new Cycletype(8);
 		//cy.printCycletypes();
 		List<int[]> perms = cy.getSpecificPartitionList();
 		List<Integer> doublePartList = cy.getDoublePartList();
@@ -55,11 +55,13 @@ public class Main {
 	private static void printNumberOfIsoClass(List<Integer> numOfOrbits, List<Integer> doublePartList) {
 		double result = 0;
 		for (int i=0; i<numOfOrbits.size(); i++) {
-			//System.out.print("2^" + numOfOrbits.get(i) + "/" + doublePartList.get(i) + " + ");
-			result += Math.pow(2, numOfOrbits.get(i)) / doublePartList.get(i);
+			System.out.print("2^" + numOfOrbits.get(i) + "/" + doublePartList.get(i) + " + ");
+			double pow = Math.pow(2, numOfOrbits.get(i));
+			double divisor = doublePartList.get(i);
+			result += pow / divisor;
 		}
 		
-		System.out.println("Anzahl Bahnen der Isomporphieklassen: " + result);
+		System.out.println("Anzahl Bahnen der Isomporphieklassen: " + (double)result);
 		
 	}
 

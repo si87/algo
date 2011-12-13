@@ -39,7 +39,7 @@ public class Cycletype {
 			if (mapping.containsKey(i)) {
 				int a = mapping.get(i);
 				double temp = (Math.pow(i, a) * getFactorial(a));
-				num *= (temp<1)?1:temp;
+				num *= temp;
 			}
 			
 		}
@@ -63,13 +63,17 @@ public class Cycletype {
 
 	private void generateSpecificPermutationList(Map<Integer, Integer> mapping) {
 		int[] currentPermutationArray = identity.clone();
+		int actualPosition = 0;
 		for (int tupelSize = 1; tupelSize <= number; tupelSize++) {
 			if (mapping.containsKey(tupelSize)) {
 				int numberOfTupelOfSize = mapping.get(tupelSize);
 				for (int i = 0; i < numberOfTupelOfSize; i++) {
 					for(int j = 0; j < tupelSize-1; j++) {
-						swap(i*tupelSize+j, currentPermutationArray);
+						swap(actualPosition, currentPermutationArray);
+						actualPosition++;
 					}
+					//changeList(currentPermutationArray, tupelSize);
+					actualPosition++;
 				} 
 			}
 		}
